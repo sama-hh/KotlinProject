@@ -20,6 +20,20 @@ fun main() {
     inventory.deleteProduct("1")
     println("\nProducts in inventory after deletion:")
     inventory.listProducts().forEach { println(it) }
+
+    println("\nTotal inventory value: \$${inventory.calculateTotalValue()}")
+
+    // Export inventory to a file
+    inventory.exportToFile("inventory.txt")
+    println("\nInventory exported to 'inventory.txt'.")
+
+    // Clear current inventory and import from file
+    inventory.deleteProduct("1")
+    inventory.deleteProduct("2")
+    inventory.deleteProduct("3")
+    inventory.importFromFile("inventory.txt")
+    println("\nInventory imported from 'inventory.txt':")
+    inventory.listProducts().forEach { println(it) }
 }
 
 

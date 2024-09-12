@@ -1,3 +1,5 @@
+import java.io.File
+
 class Inventory {
     private val products = mutableListOf<Product>()
 
@@ -29,5 +31,25 @@ class Inventory {
 
     fun searchProductsByCategory(category: String): List<Product> {
         return products.filter { it.category.equals(category, ignoreCase = true) }
+    }
+
+    fun calculateTotalValue(): Double {
+        return products.sumOf { it.price * it.quantity }
+    }
+
+    fun exportToFile(filePath: String) {
+        File(filePath).printWriter().use { out ->
+            products.forEach { out.println("${it.id},${it.name},${it.category},${it.price},${it.quantity}") }
+        }
+    }
+
+    fun importFromFile(filePath: String) {
+        File(filePath).forEachLine { line ->
+            val parts = line.split(',')
+            if (parts.size == 5) {
+                val product = Product(parts[0], parts[1], parts[2], parts[3].toDouble(), parts[4].toInt())
+                addProduct(product)
+            }
+        }
     }
 }
